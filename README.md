@@ -1,26 +1,26 @@
 #This is a Fork
 This is a fork of the original NeoPI that I developed with Scott Behrens. See the original here: https://github.com/Neohapsis/NeoPI
-I'm continuing development here to pre-clude any liability issues for the project's original account.
+I'm continuing development here to pre-clude any liability issues for the project's original account, and differentiating by genericizing the name to FilePI.
 
-#What is NeoPI?
-NeoPI is a Python script that uses a variety of statistical methods to detect obfuscated and encrypted content within text/script files. The intended purpose of NeoPI is to aid in the detection of hidden web shell code. The development focus of NeoPI was creating a tool that could be used in conjunction with other established detection methods such as Linux Malware Detect or traditional signature/keyword based searches.
+#What is FilePI?
+FilePI is a Python script that uses a variety of statistical methods to detect obfuscated and encrypted content within text/script files. The intended purpose of FilePI is to aid in the detection of hidden web shell code. The development focus of FilePI was creating a tool that could be used in conjunction with other established detection methods such as Linux Malware Detect or traditional signature/keyword based searches.
 
-NeoPI recursively scans through the file system from a base directory and will rank files based on the results of  a number of tests. It also presents a “general” score derived from file rankings within the individual tests.
+FilePI recursively scans through the file system from a base directory and will rank files based on the results of  a number of tests. It also presents a “general” score derived from file rankings within the individual tests.
 
 #Requirements
-NeoPI is platform independent and can be run on any system with Python 2.6 or greater installed installed. The user running the script should have read access to all of the files that will be scanned.
+FilePI is platform independent and can be run on any system with Python 2.6 or greater installed installed. The user running the script should have read access to all of the files that will be scanned.
 
 #How to use it
-NeoPI is platform independent and will run on both Linux and Windows.  To start using NeoPI first checkout the code from our github repository
+FilePI is platform independent and will run on both Linux and Windows.  To start using FilePI first checkout the code from our github repository
 
-	git clone ssh://git@github.com:benhagen/NeoPI.git
+	git clone ssh://git@github.com:benhagen/FilePI.git
 
-The small NeoPI script is now in your local directory.  We are going to go though a few examples on Linux and then switch over to Windows.  
+The small FilePI script is now in your local directory.  We are going to go though a few examples on Linux and then switch over to Windows.  
 
-Let’s run neopi.py with the -h flag to see the options.  
+Let’s run filepi.py with the -h flag to see the options.  
 
-	[sbehrens@WebServer2 opt]$ ./neopi.py -h
-	Usage: neopi.py [options] <start directory> <OPTIONAL: filename regex>
+	[sbehrens@WebServer2 opt]$ ./filepi.py -h
+	Usage: filepi.py [options] <start directory> <OPTIONAL: filename regex>
 
 	Options:
 	  --version             show program's version number and exit
@@ -57,11 +57,11 @@ This flag runs an auto generated regular expression that contains many common we
 
 Now that we are familiar with the flags and we have downloaded a copy of the script from GIT, let’s go head and run it on a web server we think may be infected with obfuscated web shells.    
 
-	[sbehrens@WebServer2 opt]$ sudo ./neopi.py -C scan1.csv -a -A /var/www/
+	[sbehrens@WebServer2 opt]$ sudo ./filepi.py -C scan1.csv -a -A /var/www/
 	
 The resulst of the scan we be displayed to console as well as written to 'scan1.csv'.  Here is an example of the scan results:
 
-	[root@WebServer2 opt]# python neopi.py -a -A /var/www/html/
+	[root@WebServer2 opt]# python filepi.py -a -A /var/www/html/
 
 	[[ Average IC for Search ]]
 	0.0372337579606
@@ -119,7 +119,7 @@ We highly recommend that as a baseline, any file that is displayed in the Highes
 ##Windows
 The tool is cross compatible with windows as well.    In the example below we use a regular expressing to just search for php and text files.
 
-	python neopi.py -a c:\temp\phpbb "php|txt"
+	python filepi.py -a c:\temp\phpbb "php|txt"
 
 
 
