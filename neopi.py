@@ -65,7 +65,6 @@ class LanguageIC:
 		self.ic_total_results = ic_total
 		return
 
-
 	def calculate(self,data,filename):
 	   """Calculate the Index of Coincidence for a file and append to self.ic_results array"""
 	   if not data:
@@ -85,7 +84,6 @@ class LanguageIC:
 	   self.calculate_char_count(data)
 	   return ic
 
-
 	def sort(self):
 	   self.results.sort(key=lambda item: item["value"])
 	   self.results = resultsAddRank(self.results)
@@ -101,6 +99,7 @@ class LanguageIC:
 	   for x in range(count):
 		   print ' {0:>7.4f}        {1}'.format(self.results[x]["value"], self.results[x]["filename"])
 	   return
+
 
 class Entropy:
    """Class that calculates a file's Entropy."""
@@ -135,6 +134,7 @@ class Entropy:
 	   for x in range(count):
 		   print ' {0:>7.4f}        {1}'.format(self.results[x]["value"], self.results[x]["filename"])
 	   return
+
 
 class LongestWord:
    """Class that determines the longest word for a particular file."""
@@ -171,6 +171,7 @@ class LongestWord:
 		   print ' {0:>7}        {1}'.format(self.results[x]["value"], self.results[x]["filename"])
 	   return
 
+
 class SignatureNasty:
    """Generator that searches a given file for nasty expressions"""
 
@@ -200,6 +201,7 @@ class SignatureNasty:
 		   print ' {0:>7}        {1}'.format(self.results[x]["value"], self.results[x]["filename"])
 	   return
 
+
 class SignatureSuperNasty:
    """Generator that searches a given file for SUPER-nasty expressions (These are almost always bad!)"""
 
@@ -227,6 +229,7 @@ class SignatureSuperNasty:
 	   for x in range(count):
 		   print ' {0:>7}        {1}'.format(self.results[x]["value"], self.results[x]["filename"])
 	   return
+
 
 class UsesEval:
    """Generator that searches a given file for nasty eval with variable"""
@@ -259,32 +262,33 @@ class UsesEval:
 
 
 class Compression:
-   """Generator finds compression ratio"""
+	"""Generator finds compression ratio"""
 
-   def __init__(self):
-	   """Instantiate the results array."""
-	   self.results = []
+	def __init__(self):
+		"""Instantiate the results array."""
+		self.results = []
 
-   def calculate(self, data, filename):
-	   if not data:
-		   return "", 0
-	   compressed = zlib.compress(data)
-	   ratio = float(len(compressed)) / float(len(data))
-	   self.results.append({"filename":filename, "value":ratio})
-	   return ratio
+	def calculate(self, data, filename):
+		if not data:
+			return "", 0
+		compressed = zlib.compress(data)
+		ratio = float(len(compressed)) / float(len(data))
+		self.results.append({"filename": filename, "value": ratio})
+		return ratio
 
-   def sort(self):
-	   self.results.sort(key=lambda item: item["value"])
-	   self.results.reverse()
-	   self.results = resultsAddRank(self.results)
+	def sort(self):
+		self.results.sort(key=lambda item: item["value"])
+		self.results.reverse()
+		self.results = resultsAddRank(self.results)
 
-   def printer(self, count):
-	   """Print the top files for a given search"""
-	   print "\n[[ Top %i compression match counts ]]" % (count)
-	   if (count > len(self.results)): count = len(self.results)
-	   for x in range(count):
-		   print ' {0:>7.4f}        {1}'.format(self.results[x]["value"], self.results[x]["filename"])
-	   return
+	def printer(self, count):
+		"""Print the top files for a given search"""
+		print "\n[[ Top %i compression match counts ]]" % (count)
+		if (count > len(self.results)):
+			count = len(self.results)
+		for x in range(count):
+			print ' {0:>7.4f}        {1}'.format(self.results[x]["value"], self.results[x]["filename"])
+		return
 
 
 def resultsAddRank(results):
@@ -483,7 +487,7 @@ if __name__ == "__main__":
 				fileIgnoreCount = fileIgnoreCount + 1
 
 	if options.is_csv:
-		csv_array.insert(0,csv_header)
+		csv_array.insert(0, csv_header)
 		fileOutput = csv.writer(open(options.is_csv, "wb"))
 		fileOutput.writerows(csv_array)
 
@@ -506,7 +510,8 @@ if __name__ == "__main__":
 
 	print "\n[[ Top cumulative ranked files ]]"
 	count = 10
-	if (count > len(rank_sorted)): count = len(rank_sorted)
+	if (count > len(rank_sorted)):
+		count = len(rank_sorted)
 	for x in range(count):
 		print ' {0:>7}        {1}'.format(rank_sorted[x][1], rank_sorted[x][0])
    
