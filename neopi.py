@@ -326,188 +326,187 @@ class SearchFile:
 
 
 if __name__ == "__main__":
-   """Parse all the options"""
+	"""Parse all the options"""
 
-   timeStart = time.clock()
+	timeStart = time.clock()
 
-   print """
-	   )         (   (
-	( /(         )\ ))\ )
-	)\())  (    (()/(()/(
-   ((_)\  ))\ (  /(_))(_))
-	_((_)/((_))\(_))(_))
-   | \| (_)) ((_) _ \_ _|
-   | .` / -_) _ \  _/| |
-   |_|\_\___\___/_| |___| Ver. *.USEGIT
-   """
+	print """
+	     )         (   (
+	   ( /(         )\ ))\ )
+	   )\())  (    (()/(()/(
+	 (_)\  ))\ (  /(_))(_))
+	 _((_)/((_))\(_))(_))
+	| \| (_)) ((_) _ \_ _|
+	| .` / -_) _ \  _/| |
+	|_|\_\___\___/_| |___| Ver. *.USEGIT
+	"""
 
-   parser = OptionParser(usage="usage: %prog [options] <start directory> <OPTIONAL: filename regex>",
-						 version="%prog 1.0")
-   parser.add_option("-c", "--csv",
-					 action="store",
-					 dest="is_csv",
-					 default=False,
-					 help="generate CSV outfile",
-					 metavar="FILECSV")
-   parser.add_option("-a", "--all",
-					 action="store_true",
-					 dest="is_all",
-					 default=False,
-					 help="Run all (useful) tests [Entropy, Longest Word, IC, Signature]",)
-   parser.add_option("-z", "--zlib",
-					 action="store_true",
-					 dest="is_zlib",
-					 default=False,
-					 help="Run compression Test",)
-   parser.add_option("-e", "--entropy",
-					 action="store_true",
-					 dest="is_entropy",
-					 default=False,
-					 help="Run entropy Test",)
-   parser.add_option("-E", "--eval",
-					 action="store_true",
-					 dest="is_eval",
-					 default=False,
-					 help="Run signiture test for the eval",)
-   parser.add_option("-l", "--longestword",
-					 action="store_true",
-					 dest="is_longest",
-					 default=False,
-					 help="Run longest word test",)
-   parser.add_option("-i", "--ic",
-					 action="store_true",
-					 dest="is_ic",
-					 default=False,
-					 help="Run IC test",)
-   parser.add_option("-s", "--signature",
-					 action="store_true",
-					 dest="is_signature",
-					 default=False,
-					 help="Run signature test",)
-   parser.add_option("-S", "--supersignature",
-					 action="store_true",
-					 dest="is_supersignature",
-					 default=False,
-					 help="Run SUPER-signature test",)
-   parser.add_option("-A", "--auto",
-					 action="store_true",
-					 dest="is_auto",
-					 default=False,
-					 help="Run auto file extension tests",)
-   parser.add_option("-u", "--unicode",
-					 action="store_true",
-					 dest="ignore_unicode",
-					 default=False,
-					 help="Skip over unicode-y/UTF'y files",)
+	parser = OptionParser(usage="usage: %prog [options] <start directory> <OPTIONAL: filename regex>", version="%prog 1.0")
+	parser.add_option("-c", "--csv",
+		action="store",
+		dest="is_csv",
+		default=False,
+		help="generate CSV outfile",
+		metavar="FILECSV")
+	parser.add_option("-a", "--all",
+		action="store_true",
+		dest="is_all",
+		default=False,
+		help="Run all (useful) tests [Entropy, Longest Word, IC, Signature]",)
+	parser.add_option("-z", "--zlib",
+		action="store_true",
+		dest="is_zlib",
+		default=False,
+		help="Run compression Test",)
+	parser.add_option("-e", "--entropy",
+		action="store_true",
+		dest="is_entropy",
+		default=False,
+		help="Run entropy Test",)
+	parser.add_option("-E", "--eval",
+		action="store_true",
+		dest="is_eval",
+		default=False,
+		help="Run signiture test for the eval",)
+	parser.add_option("-l", "--longestword",
+		action="store_true",
+		dest="is_longest",
+		default=False,
+		help="Run longest word test",)
+	parser.add_option("-i", "--ic",
+		action="store_true",
+		dest="is_ic",
+		default=False,
+		help="Run IC test",)
+	parser.add_option("-s", "--signature",
+		action="store_true",
+		dest="is_signature",
+		default=False,
+		help="Run signature test",)
+	parser.add_option("-S", "--supersignature",
+		action="store_true",
+		dest="is_supersignature",
+		default=False,
+		help="Run SUPER-signature test",)
+	parser.add_option("-A", "--auto",
+		action="store_true",
+		dest="is_auto",
+		default=False,
+		help="Run auto file extension tests",)
+	parser.add_option("-u", "--unicode",
+		action="store_true",
+		dest="ignore_unicode",
+		default=False,
+		help="Skip over unicode-y/UTF'y files",)
 
-   (options, args) = parser.parse_args()
+	(options, args) = parser.parse_args()
 
-   # Error on invalid number of arguements
-   if len(args) < 1:
-	   parser.print_help()
-	   print ""
-	   sys.exit()
+	# Error on invalid number of arguements
+	if len(args) < 1:
+		parser.print_help()
+		print ""
+		sys.exit()
 
-   # Error on an invalid path
-   if os.path.exists(args[0]) == False:
-	   parser.error("Invalid path")
+	# Error on an invalid path
+	if os.path.exists(args[0]) == False:
+		parser.error("Invalid path")
 
-   valid_regex = ""
-   if (len(args) == 2 and options.is_auto is False):
-	   try:
-		   valid_regex = re.compile(args[1])
-	   except:
-		   parser.error("Invalid regular expression")
-   else:
-	   valid_regex = re.compile('.*')
-   tests = []
+	valid_regex = ""
+	if (len(args) == 2 and options.is_auto is False):
+		try:
+			valid_regex = re.compile(args[1])
+		except:
+			parser.error("Invalid regular expression")
+	else:
+		valid_regex = re.compile('.*')
+	tests = []
 
-   if options.is_auto:
-	   valid_regex = re.compile('(\.php|\.asp|\.aspx|\.scath|\.bash|\.zsh|\.csh|\.tsch|\.pl|\.py|\.txt|\.cgi|\.cfm|\.htaccess)$')
+	if options.is_auto:
+		valid_regex = re.compile('(\.php|\.asp|\.aspx|\.scath|\.bash|\.zsh|\.csh|\.tsch|\.pl|\.py|\.txt|\.cgi|\.cfm|\.htaccess)$')
 
-   if options.is_all:
-	   tests.append(LanguageIC())
-	   tests.append(Entropy())
-	   tests.append(LongestWord())
-	   tests.append(SignatureNasty())
-	   tests.append(SignatureSuperNasty())
-   else:
-	   if options.is_entropy:
-		   tests.append(Entropy())
-	   if options.is_longest:
-		   tests.append(LongestWord())
-	   if options.is_ic:
-		   tests.append(LanguageIC())
-	   if options.is_signature:
-		   tests.append(SignatureNasty())
-	   if options.is_supersignature:
-		   tests.append(SignatureSuperNasty())
-	   if options.is_eval:
-		   tests.append(UsesEval())
-	   if options.is_zlib:
-		   tests.append(Compression())
+	if options.is_all:
+		tests.append(LanguageIC())
+		tests.append(Entropy())
+		tests.append(LongestWord())
+		tests.append(SignatureNasty())
+		tests.append(SignatureSuperNasty())
+	else:
+		if options.is_entropy:
+			tests.append(Entropy())
+		if options.is_longest:
+			tests.append(LongestWord())
+		if options.is_ic:
+			tests.append(LanguageIC())
+		if options.is_signature:
+			tests.append(SignatureNasty())
+		if options.is_supersignature:
+			tests.append(SignatureSuperNasty())
+		if options.is_eval:
+			tests.append(UsesEval())
+		if options.is_zlib:
+			tests.append(Compression())
 
-   # Instantiate the Generator Class used for searching, opening, and reading files
-   locator = SearchFile()
+	# Instantiate the Generator Class used for searching, opening, and reading files
+	locator = SearchFile()
 
-   # CSV file output array
-   csv_array = []
-   csv_header = ["filename"]
+	# CSV file output array
+	csv_array = []
+	csv_header = ["filename"]
 
-   # Grab the file and calculate each test against file
-   fileCount = 0
-   fileIgnoreCount = 0
-   for data, filename in locator.search_file_path(args, valid_regex):
-	   if data:
-		   # a row array for the CSV
-		   csv_row = []
-		   csv_row.append(filename)
+	# Grab the file and calculate each test against file
+	fileCount = 0
+	fileIgnoreCount = 0
+	for data, filename in locator.search_file_path(args, valid_regex):
+		if data:
+			# a row array for the CSV
+			csv_row = []
+			csv_row.append(filename)
 
-		   if options.ignore_unicode:
-			   asciiHighCount = 0
-			   for character in data:
-				   if ord(character) > 127:
-					   asciiHighCount = asciiHighCount + 1
+			if options.ignore_unicode:
+				asciiHighCount = 0
+				for character in data:
+					if ord(character) > 127:
+						asciiHighCount = asciiHighCount + 1
 
-			   fileAsciiHighRatio = float(asciiHighCount) / float(len(data))
+				fileAsciiHighRatio = float(asciiHighCount) / float(len(data))
 
-		   if (options.ignore_unicode == False or fileAsciiHighRatio < .1):
-			   for test in tests:
-				   calculated_value = test.calculate(data, filename)
-				   # Make the header row if it hasn't been fully populated, +1 here to account for filename column
-				   if len(csv_header) < len(tests) + 1:
-					   csv_header.append(test.__class__.__name__)
-				   csv_row.append(calculated_value)
-				   fileCount = fileCount + 1
-			   csv_array.append(csv_row)
-		   else:
-			   fileIgnoreCount = fileIgnoreCount + 1
+			if (options.ignore_unicode == False or fileAsciiHighRatio < .1):
+				for test in tests:
+					calculated_value = test.calculate(data, filename)
+					# Make the header row if it hasn't been fully populated, +1 here to account for filename column
+					if len(csv_header) < len(tests) + 1:
+						csv_header.append(test.__class__.__name__)
+					csv_row.append(calculated_value)
+					fileCount = fileCount + 1
+				csv_array.append(csv_row)
+			else:
+				fileIgnoreCount = fileIgnoreCount + 1
 
-   if options.is_csv:
-	   csv_array.insert(0,csv_header)
-	   fileOutput = csv.writer(open(options.is_csv, "wb"))
-	   fileOutput.writerows(csv_array)
+	if options.is_csv:
+		csv_array.insert(0,csv_header)
+		fileOutput = csv.writer(open(options.is_csv, "wb"))
+		fileOutput.writerows(csv_array)
 
-   timeFinish = time.clock()
+	timeFinish = time.clock()
 
-   # Print some stats
-   print "\n[[ Total files scanned: %i ]]" % (fileCount)
-   print "[[ Total files ignored: %i ]]" % (fileIgnoreCount)
-   print "[[ Scan Time: %f seconds ]]" % (timeFinish - timeStart)
+	# Print some stats
+	print "\n[[ Total files scanned: %i ]]" % (fileCount)
+	print "[[ Total files ignored: %i ]]" % (fileIgnoreCount)
+	print "[[ Scan Time: %f seconds ]]" % (timeFinish - timeStart)
 
-   # Print top rank lists
-   rank_list = {}
-   for test in tests:
-	   test.sort()
-	   test.printer(10)
-	   for file in test.results:
-		   rank_list[file["filename"]] = rank_list.setdefault(file["filename"], 0) + file["rank"]
+	# Print top rank lists
+	rank_list = {}
+	for test in tests:
+		test.sort()
+		test.printer(10)
+		for file in test.results:
+			rank_list[file["filename"]] = rank_list.setdefault(file["filename"], 0) + file["rank"]
 
-   rank_sorted = sorted(rank_list.items(), key=lambda x: x[1])
+	rank_sorted = sorted(rank_list.items(), key=lambda x: x[1])
 
-   print "\n[[ Top cumulative ranked files ]]"
-   count = 10
-   if (count > len(rank_sorted)): count = len(rank_sorted)
-   for x in range(count):
-	   print ' {0:>7}        {1}'.format(rank_sorted[x][1], rank_sorted[x][0])
+	print "\n[[ Top cumulative ranked files ]]"
+	count = 10
+	if (count > len(rank_sorted)): count = len(rank_sorted)
+	for x in range(count):
+		print ' {0:>7}        {1}'.format(rank_sorted[x][1], rank_sorted[x][0])
    
